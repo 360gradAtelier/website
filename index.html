@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>360grad Atelier – Matthias Jäggi, Frauenfeld</title>
+<meta name="description" content="360grad Atelier Matthias Jäggi, Frauenfeld. Kontakt: Telefon +41 79 382 02 29.">
+<meta name="theme-color" content="#0a0b0c">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/josefin-sans-latin-200-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Layout: eine ruhige Spalte – drehender Gradkreis als Visitenkarten-Kopf, darunter Kontakt */
+@font-face { font-family: "Josefin Sans"; font-weight: 200; font-display: swap; src: url("fonts/josefin-sans-latin-200-normal.woff2") format("woff2"); }
+@font-face { font-family: "Josefin Sans"; font-weight: 300; font-display: swap; src: url("fonts/josefin-sans-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Josefin Sans"; font-weight: 400; font-display: swap; src: url("fonts/josefin-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 300; font-display: swap; src: url("fonts/manrope-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 400; font-display: swap; src: url("fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 500; font-display: swap; src: url("fonts/manrope-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  --bg: #0a0b0c;
+  --fg: #e9ecee;
+  --muted: #868d94;
+  --line: #24282c;
+  --accent: #a9c3d3;
+  --accent-hover: #c2d6e2;
+  --accent-soft: rgba(169,195,211,.10);
+  --f-display: "Josefin Sans", "Futura", "Century Gothic", sans-serif;
+  --f-body: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--fg); margin: 0; }
+img, svg { max-width: 100%; }
+body {
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 20px;
+  padding-block: calc(40px + env(safe-area-inset-top, 0px)) calc(28px + env(safe-area-inset-bottom, 0px));
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+.wrap {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+/* Kreis */
+.disc { position: relative; width: min(78vw, 300px); aspect-ratio: 1; max-width: 100%; }
+.disc svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ring { animation: spin 90s linear infinite; transform-origin: 50% 50%; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ring { animation: none; } }
+.tick { stroke: var(--muted); stroke-width: .6; }
+.tick.major { stroke: var(--accent); stroke-width: 1; }
+.deg { fill: var(--muted); font-family: var(--f-display); font-size: 6.5px; letter-spacing: .08em; }
+.disc .mark {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+}
+.mark .num {
+  font-family: var(--f-display); font-weight: 200;
+  font-size: clamp(56px, 19vw, 76px); line-height: 1; letter-spacing: -.01em;
+}
+.mark .num sup { color: var(--accent); font-size: .42em; vertical-align: .9em; margin-left: .04em; }
+.mark .word {
+  font-family: var(--f-display); font-weight: 300;
+  font-size: 13px; letter-spacing: .5em; text-transform: uppercase;
+  margin-top: 10px; padding-left: .5em;
+}
+
+/* Name */
+.who { text-align: center; display: flex; flex-direction: column; gap: 4px; }
+.who h1 {
+  margin: 0; font-family: var(--f-display); font-weight: 300;
+  font-size: 22px; letter-spacing: .18em; text-transform: uppercase;
+  text-wrap: balance;
+}
+.who p { margin: 0; color: var(--muted); font-size: 14px; letter-spacing: .04em; }
+
+/* Tasten */
+.actions { width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 52px; border-radius: 999px; text-decoration: none;
+  font-size: 14px; font-weight: 500; letter-spacing: .03em;
+  color: var(--fg); border: 1px solid var(--line); background: transparent;
+  transition: border-color .2s, background .2s;
+}
+.btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+.btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.save { grid-column: 1 / -1; color: var(--accent); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+/* Kontakt */
+.contact { width: 100%; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.row {
+  display: grid; grid-template-columns: 74px 1fr auto; align-items: center; gap: 12px;
+  padding-block: 16px; border-bottom: 1px solid var(--line);
+}
+.row .lbl {
+  font-family: var(--f-display); font-size: 11px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--accent);
+}
+.row .val { min-width: 0; overflow-wrap: anywhere; font-size: 16px; }
+.row address { font-style: normal; }
+.copy {
+  font: inherit; font-size: 12px; color: var(--muted); background: none;
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer;
+}
+.copy:hover { color: var(--fg); border-color: var(--muted); }
+.copy:focus-visible, .btn:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
+/* Fuss */
+footer {
+  width: 100%; color: var(--muted);
+  font-size: 12px; line-height: 1.7;
+  display: flex; flex-direction: column; gap: 14px; text-align: center;
+}
+footer strong { font-weight: 500; color: var(--fg); letter-spacing: .04em; }
+details { text-align: left; border-top: 1px solid var(--line); padding-top: 12px; }
+summary {
+  cursor: pointer; list-style: none; text-align: center;
+  font-family: var(--f-display); letter-spacing: .2em; text-transform: uppercase; font-size: 11px;
+  color: var(--fg);
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { content: " +"; color: var(--accent); }
+details[open] summary::after { content: " –"; }
+details p { margin: 10px 0 0; max-width: 60ch; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="disc" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <g class="ring" id="ring"></g>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="var(--line)" stroke-width=".6"></circle>
+    </svg>
+    <div class="mark">
+      <div class="num">360<sup>°</sup></div>
+      <div class="word">Atelier</div>
+    </div>
+  </div>
+
+  <header class="who">
+    <h1>360grad Atelier</h1>
+    <p>Matthias Jäggi · Frauenfeld</p>
+  </header>
+
+  <div class="actions">
+    <a class="btn primary" href="tel:+41793820229">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+      Anrufen</a>
+    <a class="btn" id="mail-btn" href="#kontakt">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      E-Mail</a>
+    <a class="btn save" href="kontakt.vcf" type="text/vcard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M18 8v6M15 11h6"/></svg>
+      Kontakt speichern</a>
+  </div>
+
+  <section class="contact" id="kontakt" aria-label="Kontakt">
+    <div class="row">
+      <span class="lbl">Telefon</span>
+      <span class="val">+41 79 382 02 29</span>
+      <button class="copy" type="button" id="c-tel" data-copy="+41 79 382 02 29">Kopieren</button>
+    </div>
+    <div class="row">
+      <span class="lbl">E-Mail</span>
+      <span class="val js-mail">info [at] 360gradatelier.ch</span>
+      <button class="copy" type="button" id="c-mail" data-copy="">Kopieren</button>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <strong>Impressum</strong><br>
+      360grad Atelier Matthias Jäggi<br>
+      Blumenstrasse 28, 8500 Frauenfeld, Schweiz<br>
+      <span class="js-mail">info [at] 360gradatelier.ch</span>
+    </div>
+    <details>
+      <summary>Datenschutz</summary>
+      <p>Verantwortlich für diese Website ist 360grad Atelier Matthias Jäggi, Blumenstrasse 28, 8500 Frauenfeld.</p>
+      <p>Diese Website verwendet keine Cookies, keine Analyse- oder Tracking-Dienste und kein Kontaktformular. Schriften werden direkt von dieser Website geladen, nicht von Drittanbietern.</p>
+      <p>Die Website wird bei GitHub Pages (GitHub, Inc., USA) betrieben. Beim Aufruf speichert der Hosting-Anbieter technisch notwendige Zugriffsdaten wie IP-Adresse, Datum und Uhrzeit, um die Seite sicher auszuliefern. Dabei können Daten in die USA übermittelt werden. GitHub ist nach dem Swiss-U.S. Data Privacy Framework zertifiziert.</p>
+      <p>Wenn Sie mich per E-Mail oder Telefon kontaktieren, verwende ich Ihre Angaben nur zur Bearbeitung Ihrer Anfrage und gebe sie nicht an Dritte weiter. E-Mails werden über Microsoft 365 verarbeitet.</p>
+      <p>Sie können jederzeit Auskunft über Ihre Daten sowie deren Berichtigung oder Löschung verlangen, per E-Mail an die oben genannte Adresse.</p>
+      <p>Stand: Oktober 2026</p>
+    </details>
+    <div>© 2020–<span id="yr">2026</span> 360grad Atelier Matthias Jäggi</div>
+  </footer>
+</main>
+
+<script>
+(function () {
+  // Gradkreis
+  var g = document.getElementById('ring'), ns = 'http://www.w3.org/2000/svg';
+  for (var d = 0; d < 360; d += 5) {
+    var major = d % 30 === 0, a = (d - 90) * Math.PI / 180;
+    var r1 = 92, r2 = major ? 84 : (d % 10 === 0 ? 87.5 : 89.5);
+    var l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1', 100 + r1 * Math.cos(a)); l.setAttribute('y1', 100 + r1 * Math.sin(a));
+    l.setAttribute('x2', 100 + r2 * Math.cos(a)); l.setAttribute('y2', 100 + r2 * Math.sin(a));
+    l.setAttribute('class', 'tick' + (major ? ' major' : ''));
+    g.appendChild(l);
+    if (d % 90 === 0) {
+      var t = document.createElementNS(ns, 'text'), rt = 77;
+      t.setAttribute('x', 100 + rt * Math.cos(a)); t.setAttribute('y', 100 + rt * Math.sin(a));
+      t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+      t.setAttribute('class', 'deg'); t.textContent = d + '°';
+      g.appendChild(t);
+    }
+  }
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // E-Mail-Adresse erst im Browser zusammensetzen (Schutz vor Spam-Robotern)
+  var mail = ['info', '360gradatelier.ch'].join('@');
+  document.querySelectorAll('.js-mail').forEach(function (el) { el.textContent = mail; });
+  document.getElementById('mail-btn').setAttribute('href', 'mai' + 'lto:' + mail);
+  document.getElementById('c-mail').setAttribute('data-copy', mail);
+
+  // Kopieren
+  document.querySelectorAll('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var txt = b.getAttribute('data-copy');
+      var done = function () { b.textContent = 'Kopiert'; setTimeout(function () { b.textContent = 'Kopieren'; }, 1600); };
+      try { navigator.clipboard.writeText(txt).then(done, function () { selectVal(b); }); }
+      catch (e) { selectVal(b); }
+    });
+  });
+  function selectVal(b) {
+    var v = b.previousElementSibling, r = document.createRange();
+    r.selectNodeContents(v); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+})();
+</script>
+</body>
+</html>
